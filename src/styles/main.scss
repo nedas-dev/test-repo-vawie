@@ -1,3 +1,9 @@
+@mixin breakpoint-max($width) {
+  @media screen and (max-width: #{$width}px) {
+    @content;
+  }
+}
+
 body {
   background-color: white;
   overflow: hidden;
@@ -51,8 +57,16 @@ body {
   left: 50%;
   transform: translateX(-50%);
 
+  @include breakpoint-max(768) {
+    top: 50px;
+  }
+
   &__image {
     width: 250px;
+
+    @include breakpoint-max(768) {
+      width: 200px;
+    }
   }
 
   &__left-title {
@@ -62,6 +76,12 @@ body {
     font-size: 48px;
     font-family: Helvetica, Arial, sans-serif;
     padding-bottom: 10px;
+
+    @include breakpoint-max(768) {
+      font-size: 20px;
+      left: -60px;
+      top: 110px;
+    }
   }
 
   &__right-title {
@@ -70,6 +90,12 @@ body {
     right: -170px;
     font-size: 48px;
     font-family: Helvetica, Arial, sans-serif;
+
+    @include breakpoint-max(768) {
+      font-size: 20px;
+      right: -80px;
+      top: 110px;
+    }
   }
 
   &__top-title {
@@ -77,5 +103,10 @@ body {
     font-size: 48px;
     font-family: Helvetica, Arial, sans-serif;
     padding-bottom: 20px;
+
+    @include breakpoint-max(768) {
+      font-size: 24px;
+      padding-bottom: 15px;
+    }
   }
 }
