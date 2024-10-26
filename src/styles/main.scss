@@ -110,3 +110,86 @@ body {
     }
   }
 }
+
+// Add these new styles at the end of the file
+
+.cheese {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 10;
+  animation: cheese-pulse 1s ease-in-out infinite;
+  transition: transform 0.5s ease-in-out;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+
+    @include breakpoint-max(768) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  &--shrink {
+    animation: cheese-shrink 1.5s ease-in-out forwards;
+  }
+}
+
+@keyframes cheese-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cheese-shrink {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.mouse {
+  position: fixed;
+  bottom: -100px;
+  right: -100px;
+  z-index: 20;
+  transition: all 0.5s ease-in-out;
+
+  &__image {
+    width: 100px;
+    height: auto;
+  }
+
+  &--animated {
+    animation: mouse-animation 1.5s ease-in-out forwards;
+  }
+}
+
+@keyframes mouse-animation {
+  0% {
+    bottom: -100px;
+    right: -100px;
+  }
+  25% {
+    bottom: 20px;
+    right: 20px;
+  }
+  75% {
+    bottom: 20px;
+    right: 20px;
+  }
+  100% {
+    bottom: -100px;
+    right: -100px;
+  }
+}
