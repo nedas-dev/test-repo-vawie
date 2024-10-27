@@ -49,6 +49,25 @@ body {
   &__image {
     width: 150px;
   }
+
+  &--celebrate {
+    animation: celebrate 1s ease-in-out;
+  }
+}
+
+@keyframes celebrate {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-5deg);
+  }
 }
 
 .vawie {
@@ -192,4 +211,12 @@ body {
     bottom: -100px;
     right: -100px;
   }
+}
+
+.falling-candy {
+  width: 30px; // Adjust size as needed
+  height: auto;
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
 }
