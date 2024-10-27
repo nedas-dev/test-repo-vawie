@@ -78,6 +78,9 @@ function init () {
 
       // Add new event listener for vawie
       const vawie = document.querySelector('.vawie');
+      const dropSound = new Audio('assets/drop-sound.mp3');
+      dropSound.playbackRate = 2.5;
+
       vawie.addEventListener('click', () => {
         // Create candy element
         const candy = document.createElement('img');
@@ -98,10 +101,11 @@ function init () {
         // Add candy to the document
         document.body.appendChild(candy);
         
-        // Animate the candy falling
+        // Animate the candy falling and play sound
         setTimeout(() => {
           candy.style.transition = 'top 1s ease-in';
           candy.style.top = `${window.innerHeight}px`;
+          dropSound.play();
         }, 50);
         
         // Remove candy after animation
