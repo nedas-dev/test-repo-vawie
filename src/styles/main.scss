@@ -46,25 +46,31 @@ body {
     }
   }
 
+  // .christy__image
   &__image {
     width: 150px;
   }
 
+  // .christy--celebrate
   &--celebrate {
     animation: celebrate 1s ease-in-out;
   }
 }
 
 @keyframes celebrate {
+  // 0%, 100%
   0%, 100% {
     transform: scale(1) rotate(0deg);
   }
+  // 25%
   25% {
     transform: scale(1.1) rotate(-5deg);
   }
+  // 50%
   50% {
     transform: scale(1.1) rotate(5deg);
   }
+  // 75%
   75% {
     transform: scale(1.1) rotate(-5deg);
   }
@@ -80,6 +86,7 @@ body {
     top: 50px;
   }
 
+  // .vawie__image
   &__image {
     width: 250px;
 
@@ -88,6 +95,7 @@ body {
     }
   }
 
+  // .vawie__left-title
   &__left-title {
     position: absolute;
     top: 140px;
@@ -103,6 +111,7 @@ body {
     }
   }
 
+  // .vawie__right-title
   &__right-title {
     position: absolute;
     top: 140px;
@@ -117,6 +126,7 @@ body {
     }
   }
 
+  // .vawie__top-title
   &__top-title {
     text-align: center;
     font-size: 48px;
@@ -130,8 +140,6 @@ body {
   }
 }
 
-// Add these new styles at the end of the file
-
 .cheese {
   position: fixed;
   bottom: 20px;
@@ -141,6 +149,7 @@ body {
   animation: cheese-pulse 1s ease-in-out infinite;
   transition: transform 0.5s ease-in-out;
 
+  // .cheese__image
   &__image {
     width: 80px;
     height: 80px;
@@ -151,27 +160,33 @@ body {
     }
   }
 
+  // .cheese--shrink
   &--shrink {
     animation: cheese-shrink 1.5s ease-in-out forwards;
   }
 }
 
 @keyframes cheese-pulse {
+  // 0%
   0% {
     transform: scale(1);
   }
+  // 50%
   50% {
     transform: scale(1.05);
   }
+  // 100%
   100% {
     transform: scale(1);
   }
 }
 
 @keyframes cheese-shrink {
+  // 0%
   0% {
     transform: scale(1);
   }
+  // 100%
   100% {
     transform: scale(0);
   }
@@ -184,29 +199,35 @@ body {
   z-index: 20;
   transition: all 0.5s ease-in-out;
 
+  // .mouse__image
   &__image {
     width: 100px;
     height: auto;
   }
 
+  // .mouse--animated
   &--animated {
     animation: mouse-animation 1.5s ease-in-out forwards;
   }
 }
 
 @keyframes mouse-animation {
+  // 0%
   0% {
     bottom: -100px;
     right: -100px;
   }
+  // 25%
   25% {
     bottom: 20px;
     right: 20px;
   }
+  // 75%
   75% {
     bottom: 20px;
     right: 20px;
   }
+  // 100%
   100% {
     bottom: -100px;
     right: -100px;
@@ -219,4 +240,66 @@ body {
   position: absolute;
   z-index: -1;
   pointer-events: none;
+}
+
+.gobble {
+  position: absolute;
+  left: 0;
+  top: 60%;
+  width: 100%;
+
+  @include breakpoint-max(768) {
+    top: 50%;
+  }
+
+  // .gobble__image
+  &__image {
+    max-width: 150px; // Adjust based on your image size
+    height: auto;
+  }
+  
+  // Walking animation
+  &--walking {
+    animation: walkAcrossScreen 8s linear forwards;
+
+    @include breakpoint-max(768) {
+      animation: walkAcrossScreenMobile 6s linear forwards;
+    }
+  }
+}
+
+@keyframes walkAcrossScreen {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100vw);
+  }
+  60% {
+    transform: translateX(91vw);
+  }
+  95% {
+    transform: translateX(93vw);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes walkAcrossScreenMobile {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100vw);
+  }
+  60% {
+    transform: translateX(65vw);
+  }
+  95% {
+    transform: translateX(70vw);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
 }
