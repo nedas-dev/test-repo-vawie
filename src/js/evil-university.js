@@ -70,6 +70,7 @@ export default function initEvilUniversity() {
       chaosIntervalId = null;
     }
     document.querySelectorAll('.chaos-emoji').forEach((node) => node.remove());
+    document.querySelectorAll('.explosion-particle').forEach((node) => node.remove());
 
     if (errorCascadeTimeoutId) {
       clearTimeout(errorCascadeTimeoutId);
@@ -94,6 +95,55 @@ export default function initEvilUniversity() {
     setTimeout(() => {
       emoji.remove();
     }, 3200);
+  };
+
+  const launchExplosionParticles = () => {
+    if (!registrationOverlay) {
+      return;
+    }
+
+    const particleCount = prefersReducedMotion ? 8 : 18;
+    const palette = ['#ff6ec7', '#ffc93c', '#6bc5f8', '#c779d0', '#fddb92', '#f76b1c'];
+    const overlayRect = registrationOverlay.getBoundingClientRect();
+    const modalRect = registrationModal?.getBoundingClientRect();
+
+    const originX =
+      (modalRect?.left ?? overlayRect.left) + (modalRect?.width ?? overlayRect.width) / 2 - overlayRect.left;
+    const originY =
+      (modalRect?.top ?? overlayRect.top) + (modalRect?.height ?? overlayRect.height) / 2 - overlayRect.top;
+
+    for (let index = 0; index < particleCount; index += 1) {
+      const particle = document.createElement('span');
+      particle.className = 'explosion-particle';
+
+      const hue = palette[Math.floor(Math.random() * palette.length)];
+      const size = prefersReducedMotion ? 10 + Math.random() * 10 : 12 + Math.random() * 18;
+      particle.style.setProperty('--particle-size', `${size}px`);
+      particle.style.setProperty('--particle-color', hue);
+      particle.style.setProperty('--particle-glow', `${hue}88`);
+      particle.style.left = `${originX}px`;
+      particle.style.top = `${originY}px`;
+
+      const angle = Math.random() * Math.PI * 2;
+      const distance = prefersReducedMotion ? 80 + Math.random() * 40 : 140 + Math.random() * 90;
+      const travelX = Math.cos(angle) * distance;
+      const travelY = Math.sin(angle) * distance;
+
+      particle.style.setProperty('--travel-x', `${travelX}px`);
+      particle.style.setProperty('--travel-y', `${travelY}px`);
+      particle.style.setProperty('--travel-x-final', `${travelX * 1.1}px`);
+      particle.style.setProperty('--travel-y-final', `${travelY * 1.1}px`);
+      particle.style.animationDelay = `${Math.random() * 0.12}s`;
+
+      registrationOverlay.appendChild(particle);
+      particle.addEventListener(
+        'animationend',
+        () => {
+          particle.remove();
+        },
+        { once: true }
+      );
+    }
   };
 
   const activateFullChaos = () => {
@@ -121,6 +171,7 @@ export default function initEvilUniversity() {
     registrationModal?.classList.add('modal-exploding');
     registrationFootnote.textContent = 'CRITICAL ERROR: Modal containment field compromised.';
     registrationFootnote.classList.add('is-panicking');
+    launchExplosionParticles();
 
     registrationModal?.addEventListener(
       'animationend',

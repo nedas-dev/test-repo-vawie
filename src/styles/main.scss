@@ -247,6 +247,7 @@ body {
   left: 0;
   top: 60%;
   width: 100%;
+  z-index: 12;
 
   @include breakpoint-max(768) {
     top: 50%;
@@ -659,6 +660,22 @@ body.full-chaos {
   z-index: 50;
 }
 
+.explosion-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--particle-size, 18px);
+  height: var(--particle-size, 18px);
+  border-radius: 50%;
+  background: var(--particle-color, rgba(255, 255, 255, 0.85));
+  box-shadow: 0 0 18px var(--particle-glow, rgba(255, 255, 255, 0.65));
+  transform: translate(-50%, -50%) scale(0.4);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: explosion-burst 0.95s cubic-bezier(0.17, 0.67, 0.38, 1.02) forwards;
+}
+
 .modal--shake {
   animation: modal-shake 0.55s ease;
 }
@@ -734,6 +751,31 @@ body.full-chaos {
   100% {
     opacity: 0;
     transform: translateY(-90vh) rotate(540deg) scale(1.6);
+  }
+}
+
+@keyframes explosion-burst {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  65% {
+    opacity: 1;
+    transform: translate(
+        calc(-50% + var(--travel-x, 0px)),
+        calc(-50% + var(--travel-y, 0px))
+      )
+      scale(1.05);
+    box-shadow: 0 0 28px var(--particle-glow, rgba(255, 255, 255, 0.75));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--travel-x-final, var(--travel-x, 0px))),
+        calc(-50% + var(--travel-y-final, var(--travel-y, 0px)))
+      )
+      scale(0.35);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   }
 }
 
