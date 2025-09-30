@@ -14,11 +14,25 @@ export default function initEvilUniversity() {
   const registrationFootnote = document.getElementById('registrationFootnote');
   const registrationModal = registrationOverlay?.querySelector('.registration-modal');
   const form = document.getElementById('evilForm');
+  const formErrors = document.getElementById('formErrors');
   const closeButtons = document.querySelectorAll('[data-close-modal]');
   const overlays = document.querySelectorAll('[data-overlay]');
 
   let chaosIntervalId = null;
+  let errorCascadeTimeoutId = null;
+  let errorCascadeStarted = false;
+  let nextErrorIndex = 0;
+  let modalAlreadyExploded = false;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const ERROR_MESSAGES = [
+    'Error 013: Plush compliance certificate missing.',
+    'Error 047: Fluff-to-villainy ratio wildly imbalanced.',
+    'Error 092: Unauthorized sparkle energy detected in input.',
+    'Error 204: Evil specialty selection stuck in adorable mode.',
+    'Error 302: Redirect loop to pillow fight dimension triggered.',
+    'Error 509: Containment pressure critical — imminent modal rupture.',
+  ];
 
   const openOverlay = (overlay) => {
     if (!overlay) return;
@@ -36,11 +50,13 @@ export default function initEvilUniversity() {
 
   const resetRegistrationChaos = () => {
     registrationModal?.classList.remove('stage-two', 'stage-three', 'stage-four');
+    registrationModal?.classList.remove('modal-exploding', 'modal-exploded');
     form?.classList.remove('form-flight', 'form-collapse');
     document.body.classList.remove('full-chaos');
     registrationFootnote?.classList.remove('is-panicking');
     registrationFootnote.textContent =
       'Enrollment closes at the stroke of midnight. Bring your fluffiest self.';
+    modalAlreadyExploded = false;
 
     [firstNameInput, lastNameInput, specialtyInput, villainyInput].forEach((input) => {
       if (!input) return;
@@ -54,6 +70,17 @@ export default function initEvilUniversity() {
       chaosIntervalId = null;
     }
     document.querySelectorAll('.chaos-emoji').forEach((node) => node.remove());
+
+    if (errorCascadeTimeoutId) {
+      clearTimeout(errorCascadeTimeoutId);
+      errorCascadeTimeoutId = null;
+    }
+    errorCascadeStarted = false;
+    nextErrorIndex = 0;
+    formErrors?.classList.remove('is-active');
+    if (formErrors) {
+      formErrors.replaceChildren();
+    }
   };
 
   const spawnChaosEmoji = () => {
@@ -82,6 +109,82 @@ export default function initEvilUniversity() {
       spawnChaosEmoji();
       chaosIntervalId = window.setInterval(spawnChaosEmoji, CHAOS_INTERVAL_MS);
     }
+  };
+
+  const triggerModalExplosion = () => {
+    if (modalAlreadyExploded) {
+      return;
+    }
+
+    modalAlreadyExploded = true;
+    registrationModal?.classList.remove('stage-two', 'stage-three', 'stage-four');
+    registrationModal?.classList.add('modal-exploding');
+    registrationFootnote.textContent = 'CRITICAL ERROR: Modal containment field compromised.';
+    registrationFootnote.classList.add('is-panicking');
+
+    registrationModal?.addEventListener(
+      'animationend',
+      () => {
+        registrationModal?.classList.remove('modal-exploding');
+        registrationModal?.classList.add('modal-exploded');
+      },
+      { once: true }
+    );
+  };
+
+  const scheduleNextError = () => {
+    if (!formErrors) return;
+
+    if (nextErrorIndex >= ERROR_MESSAGES.length) {
+      errorCascadeTimeoutId = window.setTimeout(() => {
+        errorCascadeTimeoutId = null;
+        triggerModalExplosion();
+      }, 650);
+      return;
+    }
+
+    const message = ERROR_MESSAGES[nextErrorIndex];
+    nextErrorIndex += 1;
+
+    const errorRow = document.createElement('div');
+    errorRow.className = 'form-errors__item';
+
+    const icon = document.createElement('span');
+    icon.className = 'form-errors__icon';
+    icon.textContent = '⚠️';
+
+    const text = document.createElement('span');
+    text.textContent = message;
+
+    errorRow.append(icon, text);
+    formErrors.appendChild(errorRow);
+    formErrors.classList.add('is-active');
+
+    if (registrationFootnote && nextErrorIndex >= Math.ceil(ERROR_MESSAGES.length / 2)) {
+      registrationFootnote.textContent = 'ALERT: Validation cascade accelerating out of control.';
+      registrationFootnote.classList.add('is-panicking');
+    }
+
+    errorCascadeTimeoutId = window.setTimeout(() => {
+      errorCascadeTimeoutId = null;
+      scheduleNextError();
+    }, 820);
+  };
+
+  const startErrorCascade = () => {
+    if (errorCascadeStarted) {
+      return;
+    }
+
+    errorCascadeStarted = true;
+    nextErrorIndex = 0;
+    if (formErrors) {
+      formErrors.replaceChildren();
+      formErrors.classList.add('is-active');
+    }
+    registrationFootnote.textContent = 'Warning: Validation anomalies detected across all fields.';
+    registrationFootnote.classList.add('is-panicking');
+    scheduleNextError();
   };
 
   registerButton?.addEventListener('click', () => {
@@ -147,7 +250,9 @@ export default function initEvilUniversity() {
   specialtyInput?.addEventListener('input', escalateSpecialtyChaos);
   specialtyInput?.addEventListener('change', escalateSpecialtyChaos);
 
+  villainyInput?.addEventListener('focus', startErrorCascade);
   villainyInput?.addEventListener('input', () => {
+    startErrorCascade();
     villainyInput.style.transform = `rotate(${(villainyInput.value.length * 45) % 360}deg) scale(1.08)`;
     activateFullChaos();
   });
