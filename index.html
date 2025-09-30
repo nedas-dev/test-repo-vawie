@@ -33,5 +33,72 @@
     <div class="mouse">
       <img src="assets/jacque.png" alt="Mouse" class="mouse__image">
     </div>
+
+    <div class="evil-register-launcher" aria-hidden="false">
+      <button class="hero-button" id="registerButton" type="button">
+        Register for Evil University Event 🧸😈
+      </button>
+    </div>
+
+    <div class="modal-overlay" id="plushieVerification" data-overlay>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="plushieTitle">
+        <button class="modal__close" type="button" data-close-modal aria-label="Close verification dialog">×</button>
+        <div class="modal__header">
+          <div class="modal__logo">EU</div>
+          <div>
+            <h2 class="modal__title" id="plushieTitle">Plushie Verification</h2>
+            <p class="modal__subtitle">Only certified plush lifeforms may proceed.</p>
+          </div>
+        </div>
+        <div class="modal__body">
+          <p>Are you a certified plushie?</p>
+          <div class="modal__actions">
+            <button class="modal__action modal__action--primary" id="plushieYes" type="button">Yes, I am fluffy</button>
+            <button class="modal__action modal__action--ghost" id="plushieNo" type="button">No, I'm just a human 😔</button>
+          </div>
+          <p class="modal__footnote" id="humanWarning">Humans may apply once they achieve plush status.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-overlay" id="registrationOverlay" data-overlay data-dismissible="false">
+      <section class="modal registration-modal" role="dialog" aria-modal="true" aria-labelledby="registrationTitle">
+        <button class="modal__close" type="button" data-close-modal aria-label="Close registration form">×</button>
+        <div class="modal__header">
+          <div class="modal__logo modal__logo--crest">EU</div>
+          <div>
+            <h2 class="modal__title" id="registrationTitle">Evil University Enrollment</h2>
+            <p class="modal__subtitle">Please complete your villainous credentials.</p>
+          </div>
+        </div>
+        <form class="modal__form" id="evilForm" novalidate>
+          <div class="form-row">
+            <label class="form-label" for="firstName">First Name</label>
+            <input class="form-input" id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Snuggles" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input class="form-input" id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="the Terrible" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="evilSpecialty">Evil Specialty</label>
+            <select class="form-input" id="evilSpecialty" name="evilSpecialty" required>
+              <option value="" disabled selected>Select your expertise</option>
+              <option value="scheming">Diabolical Scheming</option>
+              <option value="cuddlepocalypse">Cuddlepocalypse Engineering</option>
+              <option value="undercover">Undercover Cozy Espionage</option>
+              <option value="giggles">Maniacal Giggles</option>
+              <option value="other">Other (please elaborate)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="villainyMethod">Preferred Villainy Method</label>
+            <input class="form-input" id="villainyMethod" name="villainyMethod" type="text" placeholder="Hypnotic snuggles, dramatic monologues, etc.">
+          </div>
+          <button class="modal__submit" type="submit">Complete Enrollment</button>
+          <p class="modal__footnote" id="registrationFootnote">Enrollment closes at the stroke of midnight. Bring your fluffiest self.</p>
+        </form>
+      </section>
+    </div>
   </body>
 </html>
