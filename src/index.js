@@ -3,14 +3,15 @@ import jacque from './js/jacque';
 import christy from './js/christy';
 import vawie from './js/vawie';
 import gobble from './js/gobble';
-function init () {
+import initEvilUniversity from './js/evil-university';
 
-  // Animate the cheese and mouse
+function init() {
   document.addEventListener('DOMContentLoaded', () => {
     jacque();
     christy();
     vawie();
     gobble();
+    initEvilUniversity();
   });
 }
 
